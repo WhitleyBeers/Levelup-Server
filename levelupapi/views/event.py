@@ -72,6 +72,13 @@ class EventView(ViewSet):
 
         return Response(None, status=status.HTTP_204_NO_CONTENT)
 
+    def destroy(self, request, pk):
+        """Deletes an event based off id
+        """
+        event = Event.objects.get(pk=pk)
+        event.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
 
 class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events
