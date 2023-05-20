@@ -1,0 +1,38 @@
+[
+  {
+      "model": "levelupapi.game",
+      "pk": 1,
+      "fields": {
+          "game_type": 2,
+          "title": "Board Game 1",
+          "maker": "Wizards of the Coast",
+          "gamer": 1,
+          "number_of_players": 4,
+          "skill_level": 3
+      }
+  },
+  {
+      "model": "levelupapi.game",
+      "pk": 2,
+      "fields": {
+          "game_type": 3,
+          "title": "Board Game 2",
+          "maker": "Hasbro",
+          "gamer": 1,
+          "number_of_players": 8,
+          "skill_level": 1
+      }
+  },
+  {
+      "model": "levelupapi.game",
+      "pk": 3,
+      "fields": {
+          "game_type": 3,
+          "title": "Board Game 3",
+          "maker": "Monopoly",
+          "gamer": 1,
+          "number_of_players": 6,
+          "skill_level": 2
+      }
+  }
+]
