@@ -1,5 +1,6 @@
 """View module for handling requests about events"""
 from django.http import HttpResponseServerError
+from django.db.models import Count
 from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
@@ -17,7 +18,7 @@ class EventView(ViewSet):
             Response -- JSON serialized event
         """
         try:
-            event = Event.objects.get(pk=pk)
+            event = Event.objects.annotate(attendees_count=Count('attendees')).get(pk=pk)
             serializer = EventSerializer(event)
             return Response(serializer.data)
         except Event.DoesNotExist as ex:
@@ -33,6 +34,8 @@ class EventView(ViewSet):
         game = request.query_params.get('game', None)
         if game is not None:
             events = events.filter(game_id=game)
+
+        events = Event.objects.annotate(attendees_count=Count('attendees'))
 
         uid = request.META['HTTP_AUTHORIZATION']
         gamer = Gamer.objects.get(uid=uid)
@@ -117,9 +120,10 @@ class EventView(ViewSet):
 class EventSerializer(serializers.ModelSerializer):
     """JSON serializer for events
     """
+    attendees_count = serializers.IntegerField(default=None)
     class Meta:
         model = Event
         fields = ('id', 'game', 'description',
                   'date', 'time', 'organizer',
-                  'joined')
+                  'joined', 'attendees_count')
         depth = 2
